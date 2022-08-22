@@ -1,0 +1,34 @@
+- Experimental set up: 
+
+	+ Machines specs: as mentioned in THPA paper.
+	
+	+ Kubernetes version: 1.18.0
+	
+	+ Docker version: 19.03.13
+
+	+ Round trip delay between node = 10ms.
+		+ Execute "add_delay.sh" script to add delay between nodes:
+			+ ./add_delay.sh <node1_ip> <node2_ip> <delay_value>
+			Ex: ./add_delay.sh 192.168.1.2 192.168.1.19 5 (delay between 2 nodes is 10ms Round trip)
+
+	+ Apache tool should be installed for traffic generation
+
+	+ Switch kube-proxy to ipvs mode
+
+
+- Section V_A - Evaluate 3 nodes
+
++ Use script "autoscaling_realTime_test" in experimental-script to test and get the result
+
+- Section V_B - Evaluate 3 node
+
++ Use script "auto_ab_eva_node" in experimental-scripts/sectionV_B to generate traffic toward 3 nodes at the same time and get the results.
+
+- Section V_C-1 - In this evaluation only Node 1 is evaluated
+
++ Use script "auto_ab_eva_node" in experimental-scripts/sectionV_C_1 to generate traffic toward node 1 only to get the result.
+
+- Section V_C_2 - Evaluate 3 nodes
+
++ Use script "ab_test_cummulative_diff" and  "ab_test_cummulative_even" in 
+experimental-scripts/sectionV_C_2 folder to get the result

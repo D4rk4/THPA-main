@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+echo "Begin"
+echo "1-1-1"
+./auto_hey_test_all_notEqualTraffic 30 100000 30009 1 1 1
+echo "8-8-8"
+./auto_hey_test_all_notEqualTraffic 120 100000 30009 8 8 8
+echo "8-0-0"
+./auto_hey_test_all_notEqualTraffic 420 100000 30009 8 0 0
+echo "1-1-1"
+./auto_hey_test_all_notEqualTraffic 420 100000 30009 1 1 1
+echo "finish"

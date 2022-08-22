@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# send to ip address of worker node 2
+#con=$1 # number of concurrency requests
+duration=$1
+numOfRequest=$2
+Port=$3
+con1=$4
+con2=$5
+con3=$6
+HOSTNAMES=("node1" "node2" "node3")
+
+./cleanLog
+
+if [[ $con1 -gt 0 ]]
+then    
+	count=0
+	echo "test node1"
+	while [ $count -lt $con1 ]
+	do	
+		echo "Thread: $count"
+		hey -c 1 -z $duration's' -q 16 -n $numOfRequest -disable-keepalive http://node1:$Port/ > heytestNode1_${count}.log &
+		count=$((count+1))
+	done
+	#hey -c $con1 -z $duration -q 60 -n 50000 http://node1:$Port/ > heytestNode1_load &
+fi
+
+if [[ $con2 -gt 0 ]]
+then	
+	count=0
+	echo "test node2"
+	while [ $count -lt $con2 ]
+	do 
+		echo "Thread: $count"
+		hey -c 1 -z $duration's' -q 16 -n $numOfRequest -disable-keepalive http://node2:$Port/ > heytestNode2_${count}.log &
+		count=$((count+1))
+	done
+	#hey -c $con2 -z $duration -q 60 -n 50000 http://node2:$Port/ > heytestNode2_load &
+fi
+
+if [[ $con3 -gt 0 ]] 
+then 	
+	count=0
+	echo "test node3"
+	while [ $count -lt $con3 ]
+	do
+		echo "Thread: $count"
+		hey -c 1 -z $duration's' -q 16 -n $numOfRequest -disable-keepalive http://node3:$Port/ > heytestNode3_${count}.log &
+		count=$((count+1))
+	done
+	#hey -c $con3 -z $duration -q 60 -n 50000 http://node3:$Port/ > heytestNode3_load &
+fi	
+
+echo "Performing test"
+sleep $duration
+echo "Done"
+
+#rm -rf ${con1}_${con2}_${con3}_test
+#touch ${con1}_${con2}_${con3}_test
+
+#CPU=$(kubectl get hpa | awk '{print $3}' | tail -n +2 | cut -d'/' -f 1 | cut -d'%' -f 1) 
+
+#while $CPU -gt 10 
+#do
+#	CPU=$(kubectl get hpa | awk '{print $3}' | tail -n +2 | cut -d'/' -f 1 | cut -d'%' -f 1)
+#	sleep 2
+#done
+
+#currentReplicas=$(kubectl get hpa | awk '{print $6}' | tail -n +2)
+
+#echo "$currentReplicas $con1:$con2:$con3 $currentReplicas $(kubectl get pods -o wide | grep -c "node1"):$(kubectl get pods -o wide | grep -c "node2"):$(kubectl get pods -o wide | grep -c "node3")" > ${con1}_${con2}_${con3}_test
+
+

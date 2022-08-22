@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# send to ip address of worker node 2
+#con=$1 # number of concurrency requests
+duration=60
+numOfRequest=50000
+Port=$1
+con1=$2
+con2=$3
+con3=$4
+eva_case=$5
+HOSTNAMES=("node1" "node2" "node3")
+
+rm eva_all_notEqualTraffic_$eva_case
+touch eva_all_notEqualTraffic_$eva_case
+
+rm log_node1
+rm log_node2
+rm log_node3
+
+ab -c $con1 -t $duration -n $numOfRequest http://node1:$Port/ > log_node1 &
+ab -c $con2 -t $duration -n $numOfRequest http://node2:$Port/ > log_node2 &
+ab -c $con3 -t $duration -n $numOfRequest http://node3:$Port/ > log_node3 &
+
+sleep 70
+
+for HOST in ${HOSTNAMES[@]}
+do
+
+        sum=0
+        sum_mean=0
+        sum_sd=0
+        nr=`cat log_$HOST | grep "Requests per second" | sed 's/[^0-9.]*//g'`
+
+        sum=`echo $sum + $nr | bc`
+
+        totaltime=`cat log_$HOST | grep "Total:"`
+
+        mean=`echo $totaltime | awk '{print $3}'`
+
+        sum_mean=`echo $sum_mean + $mean | bc`
+
+        sd=`echo $totaltime | awk '{print $4}'`
+
+        sum_sd=`echo $sum_sd + $sd | bc`
+
+        echo "$HOST ${sum} ${sum_mean} ${sum_sd}" >> eva_all_notEqualTraffic_$eva_case
+done
+

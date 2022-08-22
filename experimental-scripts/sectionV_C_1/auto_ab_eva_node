@@ -1,0 +1,44 @@
+#!/bin/bash
+
+#con=$1 # number of concurrency requests
+duration=60
+numOfRequest=50000
+ipWithPort=$1
+eva_case=$2
+
+rm eva_$eva_case
+touch eva_$eva_case
+
+for i in 3 6 9 12
+
+do
+        rm log_test_send_$i
+        ab -c $i -t $duration -n $numOfRequest http://$ipWithPort/ > log_test_send_$i
+        sleep 40
+done
+
+for i in 3 6 9 8 12
+
+do
+
+        sum=0
+        sum_mean=0
+        sum_sd=0
+        nr=`cat log_test_send_$i | grep "Requests per second" | sed 's/[^0-9.]*//g'`
+
+        sum=`echo $sum + $nr | bc`
+
+        totaltime=`cat log_test_send_$i | grep "Total:"`
+
+        mean=`echo $totaltime | awk '{print $3}'`
+
+        sum_mean=`echo $sum_mean + $mean | bc`
+
+        sd=`echo $totaltime | awk '{print $4}'`
+
+        sum_sd=`echo $sum_sd + $sd | bc`
+
+
+        echo "${sum} ${sum_mean} ${sum_sd}" >> eva_$eva_case
+done
+
