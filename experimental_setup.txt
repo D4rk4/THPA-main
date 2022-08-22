@@ -15,6 +15,7 @@
 
 	+ Switch kube-proxy to ipvs mode
 
+*** Note *** Traffic gen scripts must be executed on traffic gen machine
 
 - Section V_A - Evaluate 3 nodes
 
