@@ -15,7 +15,17 @@
 
 	+ Switch kube-proxy to ipvs mode
 
-*** Note *** Traffic gen scripts must be executed on traffic gen machine
+	+ App to deploy can be found in app/ directory
+
+	+ HPA must be enabled for the depoyed application:
+
+		"kubectl autoscale deployment <application_deployment_name> --min=3 --max=12 --cpu-percent=80"
+
+*** Note *** 
+
+	+ Traffic gen scripts must be executed on traffic gen machine
+
+	+ Application on each node can be accessed using nodeip and port, e.g. 192.168.10.25:10000
 
 - Section V_A - Evaluate 3 nodes
 

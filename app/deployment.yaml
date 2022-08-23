@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-example1
+spec:
+  replicas: 3
+  selector:
+   matchLabels:
+    app: app-example1
+  template:
+    metadata:
+      labels:
+        app: app-example1
+    spec:
+      containers:
+      - name: app-example1
+        image: nguyennd1995/simpleapp_200
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+         requests:
+          cpu: "50m"
+          memory: "32Mi"
+         limits:
+          cpu: "150m"
+          memory: "128Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-example1
+  labels:
+    app: app-example1
+spec:
+  selector:
+    app: app-example1
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    nodePort: 30006
+  type: NodePort
+

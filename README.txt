@@ -41,4 +41,4 @@ we need to modify these:
 
 - For scheduler-extender: https://github.com/nclabteam/k8s-scheduler-extender-example.git
 
-
+- Please check experimental_setup.txt for configuring testbed
