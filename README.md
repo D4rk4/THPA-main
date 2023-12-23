@@ -1,17 +1,17 @@
 Since THPA comprises of 2 components custom kube-controller-manager and scheduler-extender so 
 we need to modify these:
 
-*** Collecting nodes traffic ***
+# Collecting nodes traffic
 
 - Copy kube-proxy binary file in kube-proxy directory to /usr/local/bin/ in  kube-proxy container running on each node and then reset it.
 
 - Check that enpoint is created on each node whenever new deployment is created to make sure we configure correctly.
 
-*** set nodes label ***
+# set nodes label
 
 - For worker nodes, set the following label to them: node-role.kubernetes.io/worker=true
 
-*** kube-controller-manager ***
+# kube-controller-manager
 
 - cd to kube-controller-manager directory.
 
@@ -21,7 +21,7 @@ we need to modify these:
 
 - After copying, the kube-controller-manager pod will automatically be restarted.
 
-*** scheduler-extender *** 
+# scheduler-extender
 
 - cd to scheduler-extender directory
 
@@ -35,7 +35,7 @@ we need to modify these:
 
 - Run the executable file because the scheduler extender run as a server that is triggered whenever new pod need to be scheduled.
 
-*** Source code ***
+# Source code
 
 - For kube-controller-manager: https://github.com/nclabteam/kubernetes.git 
 
